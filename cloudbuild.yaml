@@ -4,18 +4,15 @@
 
 steps:
   # Step 1: Install Python dependencies
-  # This step installs all the required packages from the requirements.txt file.
   - name: 'gcr.io/cloud-builders/pip'
     id: 'Install Dependencies'
     args:
       - 'install'
       - '-r'
       - 'requirements.txt'
-      # Installs packages into the user's home directory within the build environment
       - '--user'
 
   # Step 2: Deploy the ClassificationFunction
-  # This step deploys the function located in the ClassificationFunction directory.
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Deploy ClassificationFunction'
     args:
@@ -25,10 +22,9 @@ steps:
       - '--source=.'
       - '--runtime=python39'
       - '--trigger-http'
-      - '--entry-point=classification_main' # Assumes the entry point is named classification_main in a file inside ClassificationFunction
+      - '--entry-point=classification_main' 
 
   # Step 3: Deploy the OrchestratorFunction
-  # This step deploys the function located in the OrchestratorFunction directory.
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Deploy OrchestratorFunction'
     args:
@@ -38,10 +34,9 @@ steps:
       - '--source=.'
       - '--runtime=python39'
       - '--trigger-http'
-      - '--entry-point=orchestrator_main' # Assumes the entry point is named orchestrator_main in a file inside OrchestratorFunction
+      - '--entry-point=orchestrator_main' 
 
   # Step 4: Deploy the ResponseFunction
-  # This step deploys the function located in the ResponseFunction directory.
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Deploy ResponseFunction'
     args:
@@ -51,10 +46,9 @@ steps:
       - '--source=.'
       - '--runtime=python39'
       - '--trigger-http'
-      - '--entry-point=response_main' # Assumes the entry point is named response_main in a file inside ResponseFunction
+      - '--entry-point=response_main' 
 
   # Step 5: Deploy the SummarizeFunction
-  # This step deploys the function located in the SummarizeFunction directory.
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Deploy SummarizeFunction'
     args:
@@ -64,7 +58,11 @@ steps:
       - '--source=.'
       - '--runtime=python39'
       - '--trigger-http'
-      - '--entry-point=summarize_main' # Assumes the entry point is named summarize_main in a file inside SummarizeFunction
+      - '--entry-point=summarize_main' 
 
-# Optional: You can specify a timeout for the entire build.
+# Build timeout
 timeout: '1200s'
+
+# 🛠️ FIX FOR SERVICE ACCOUNT LOGGING ERROR
+options:
+  logging: CLOUD_LOGGING_ONLY
